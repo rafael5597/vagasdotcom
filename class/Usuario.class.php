@@ -1,15 +1,15 @@
 <?php
 
 class Usuario {
-    public $id;
-    public $nome;
-    public $email;
-    public $senha;
-    public $admin;
-    public $data_criacao;
-    public $ativo;
-    public $foto;
-    public $link_linkedin;
+    public int $id;
+    public string $nome;
+    public string $email;
+    public string $senha;
+    public bool $admin;
+    public string $data_criacao;
+    public bool $ativo;
+    public string $foto;
+    public string $link_linkedin;
 
     public function setId($id) {
         $this->id = $id;
