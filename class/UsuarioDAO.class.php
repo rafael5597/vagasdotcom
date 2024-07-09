@@ -1,13 +1,14 @@
 <?php
 
-include_once "Usuario.class.php";
-
 class UsuarioDAO {
+
+    private $conexao;
+
     public function __construct(){
-        $this->conexao = new PDO("mysql:host=localhost;dbname=vagasdotcom;port=3307", "root", "root");
+        $this->conexao = new PDO("mysql:host=localhost;dbname=vagasdotcom;port=3306", "root", "root");
     }
 
-    public function inserir(usuario $usuario){
+    public function inserir(Usuario $usuario){
         $sql = $this->conexao->prepare(
             "INSERT INTO usuario (nome, email, senha, data_criacao, foto, link_linkedin) VALUES(:nome, :email, :senha, :data_criacao, :foto, :link_linkedin)"
         );
@@ -23,7 +24,7 @@ class UsuarioDAO {
 
     public function listar(){
         $sql = $this->conexao->prepare(
-            "SELECT * FROM usuarios"
+            "SELECT * FROM usuario"
         );
         $sql->execute();
         return $sql->fetchAll();
@@ -31,14 +32,14 @@ class UsuarioDAO {
 
     public function listarUmUsuario($id){
         $sql = $this->conexao->prepare(
-            "SELECT * FROM usuarios where id=:id"
+            "SELECT * FROM usuario where id=:id"
         );
         $sql->bindValue(":id", $id);
         $sql->execute();
         return $sql->fetch();
     }
 
-    public function editar(usuarios $usuario){
+    public function editar(Usuario $usuario){
         $sql = $this->conexao->prepare("UPDATE usuarios SET nome=:nome, email=:email WHERE id=:id");
         $sql->bindValue(":nome", $usuario->getNome());
         $sql->bindValue(":email", $usuario->getEmail());
