@@ -6,7 +6,7 @@ class Usuario {
     public string $email;
     public string $senha;
     public bool $admin;
-    public string $data_criacao;
+    public DateTime $data_criacao;
     public bool $ativo;
     public string $foto;
     public string $link_linkedin;
