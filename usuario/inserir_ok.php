@@ -1,13 +1,16 @@
 <?php
+
+	date_default_timezone_set('America/Sao_Paulo');
+
 	include_once "../class/Usuario.class.php";
 	include_once "../class/UsuarioDAO.class.php";
-	
+
 	$objUsuario = new Usuario();
 	$objUsuario->setNome($_POST["nome"]);
     $objUsuario->setEmail($_POST["email"]);
 	$objUsuario->setSenha($_POST["senha"]);
     $objUsuario->setLinkLinkedin($_POST["link_linkedin"]);
-    $objUsuario->setDataCriacao(new DateTime($date));
+    $objUsuario->setDataCriacao(date('Y-m-d H-i-s'));
 
     $nomeImagem = $_FILES["foto"]["name"];
 	$tmpName = $_FILES["foto"]["tmp_name"];
