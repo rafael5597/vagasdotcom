@@ -56,7 +56,7 @@
 		<section class="login-wrapper">
 			<div class="container">
 				<div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-					<form action="login_ok.php" method="POST">
+					<form action="usuario/login_ok.php" method="POST">
 						<img class="img-responsive" alt="logo" src="../img/logo.png">
 						<input name="email" type="text" class="form-control input-lg" placeholder="Usuário (e-mail)">
 						<input name="senha" type="password" class="form-control input-lg" placeholder="Senha">
@@ -72,7 +72,7 @@
 		<!-- footer start -->
 		<footer>
 			<div class="container">
-				<div class="col-md-3 col-sm-6">
+				<!-- <div class="col-md-3 col-sm-6">
 					<h4>Featured Job</h4>
 					<ul>
 						<li><a href="#">Browse Jobs</a></li>
@@ -85,7 +85,7 @@
 					</ul>
 				</div>
 				
-				<div class="col-md-3 col-sm-6">
+				<<div class="col-md-3 col-sm-6">
 					<h4>Latest Job</h4>
 					<ul>
 						<li><a href="#">Browse Jobs</a></li>
@@ -96,9 +96,9 @@
 						<li><a href="#">Mobile Site</a></li>
 						<li><a href="#">Jobs by Skill</a></li>
 					</ul>
-				</div>
+				</div> -->
 				
-				<div class="col-md-3 col-sm-6">
+				<!-- <div class="col-md-3 col-sm-6">
 					<h4>Reach Us</h4>
 					<address>
 					<ul>
@@ -110,9 +110,9 @@
 					<li>FAX: 123 456 85</li>
 					</ul>
 					</address>
-				</div>
+				</div> -->
 				
-				<div class="col-md-3 col-sm-6">
+				<!-- <div class="col-md-3 col-sm-6">
 					<h4>Drop A Mail</h4>
 					<form>
 						<input type="text" class="form-control input-lg" placeholder="Your Name">
@@ -120,12 +120,12 @@
 						<textarea class="form-control" placeholder="Message"></textarea>
 						<button type="submit" class="btn btn-primary">Login</button>
 					</form>
-				</div>
+				</div> -->
 				
 				
 			</div>
 			<div class="copy-right">
-			 <p>&copy;Copyright 2018 Jober Desk | Design By <a href="https://themezhub.com/">ThemezHub</a></p>
+			 <p>&copy;Copyright 2024 Vagas.Com | Seu novo emprego está aqui!</p>
 			</div>
 		</footer>
 		 

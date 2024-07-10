@@ -559,7 +559,7 @@
 
     </div>
     <div class="copy-right">
-        <p>&copy;Copyright 2018 Jober Desk | Design By <a href="https://themezhub.com/">ThemezHub</a></p>
+        <p>&copy;Copyright 2018 Jober Desk | Seu novo emprego está aqui!</p>
     </div>
 </footer>
 
