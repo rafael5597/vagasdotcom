@@ -1,4 +1,28 @@
+<?php
 
+session_start();
+if(isset($_SESSION['logado'])){
+    header("location:../index.php");
+}
+
+$msg = '
+    <div class="alert alert-info" role="alert">
+        Você precisa estar registrado para ver as vagas!
+    </div>';
+
+if(isset($_GET['erroEmail']))
+$msg = '
+    <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+    </div>';
+
+else if(isset($_GET['erroSenha']))
+$msg = '
+    <div class="alert alert-danger" role="alert">
+        A simple danger alert—check it out!
+    </div>';
+
+?>
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
@@ -28,7 +52,7 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
 						<i class="fa fa-bars"></i>
 					</button>
-					<a class="navbar-brand" href="index.html"><img src="../img/logo.png" class="logo" alt=""></a>
+					<a class="navbar-brand" href="index.php"><img src="../img/logo.png" class="logo" alt=""></a>
 				</div>
 				<!-- End Header Navigation -->
 
@@ -55,10 +79,11 @@
 		<!-- login section start -->
 		<section class="login-wrapper">
 			<div class="container">
-				<div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-					<form action="usuario/login_ok.php" method="POST">
+                <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
+					<form action="login_ok.php" method="POST">
 						<img class="img-responsive" alt="logo" src="../img/logo.png">
-						<input name="email" type="text" class="form-control input-lg" placeholder="Usuário (e-mail)">
+                        <?=$msg;?>
+                        <input name="email" type="text" class="form-control input-lg" placeholder="Usuário (e-mail)">
 						<input name="senha" type="password" class="form-control input-lg" placeholder="Senha">
 						<!--<label><a href="">Forget Password?</a></label>-->
 						<button type="submit" class="btn btn-primary">Login</button>
