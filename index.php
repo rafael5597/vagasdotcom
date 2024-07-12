@@ -1,6 +1,6 @@
 <?php
-
-    if(!isset($_SESSION['idUsuario'])){
+    session_start();
+    if(!isset($_SESSION['logado'])){
         header("location:usuario/login.php");
     }
 
@@ -34,14 +34,14 @@
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-menu">
                 <i class="fa fa-bars"></i>
             </button>
-            <a class="navbar-brand" href="index.html"><img src="img/logo.png" class="logo" alt=""></a>
+            <a class="navbar-brand" href="index.php"><img src="img/logo.png" class="logo" alt=""></a>
         </div>
         <!-- End Header Navigation -->
 
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="usuario/login.php">Login</a></li>
                 <li><a href="companies.php">Companies</a></li>
                 <li class="dropdown">
@@ -62,7 +62,7 @@
 <section class="main-banner" style="background:#242c36 url(img/slider-01.jpg) no-repeat">
     <div class="container">
         <div class="caption">
-            <h2>Build Your Career</h2>
+            <h2>Construa sua carreira</h2>
             <form>
                 <fieldset>
                     <div class="col-md-4 col-sm-4 no-pad">
