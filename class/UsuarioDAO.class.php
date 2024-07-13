@@ -1,14 +1,22 @@
 <?php
 
-include_once "Usuario.class.php";
+    include_once "Conexao.php";
 
 class UsuarioDAO {
+
+    private Conexao $conexao;
+    private PDO $pdo;
+
     public function __construct(){
-        $this->conexao = new PDO("mysql:host=localhost;dbname=vagasdotcom;port=3307", "root", "root");
+        $this->conexao = new Conexao();
+        $this->pdo = new PDO(
+            $this->conexao->getConn_srv(),
+            $this->conexao->getConn_usr(),
+            $this->conexao->getConn_pwd());
     }
 
-    public function inserir(usuario $usuario){
-        $sql = $this->conexao->prepare(
+    public function inserir(Usuario $usuario){
+        $sql = $this->pdo->prepare(
             "INSERT INTO usuario (nome, email, senha, data_criacao, foto, link_linkedin) VALUES(:nome, :email, :senha, :data_criacao, :foto, :link_linkedin)"
         );
 
@@ -22,24 +30,24 @@ class UsuarioDAO {
     }
 
     public function listar(){
-        $sql = $this->conexao->prepare(
-            "SELECT * FROM usuarios"
+        $sql = $this->pdo->prepare(
+            "SELECT * FROM usuario"
         );
         $sql->execute();
         return $sql->fetchAll();
     }
 
-    public function listarUmUsuario($id){
-        $sql = $this->conexao->prepare(
-            "SELECT * FROM usuarios where id=:id"
+    public function listarUmUsuario(Usuario $u){
+        $sql = $this->pdo->prepare(
+            "SELECT * FROM usuario where id=:id"
         );
-        $sql->bindValue(":id", $id);
+        $sql->bindValue(":id", $u->getId());
         $sql->execute();
         return $sql->fetch();
     }
 
-    public function editar(usuarios $usuario){
-        $sql = $this->conexao->prepare("UPDATE usuarios SET nome=:nome, email=:email WHERE id=:id");
+    public function editar(Usuario $usuario){
+        $sql = $this->pdo->prepare("UPDATE usuario SET nome=:nome, email=:email WHERE id=:id");
         $sql->bindValue(":nome", $usuario->getNome());
         $sql->bindValue(":email", $usuario->getEmail());
         $sql->bindValue(":id", $usuario->getId());
@@ -47,11 +55,30 @@ class UsuarioDAO {
     }
 
     public function excluir($id){
-        $sql = $this->conexao->prepare("
-                DELETE FROM usuarios WHERE id = :id
+        $sql = $this->pdo->prepare("
+                DELETE FROM usuario WHERE id = :id
             ");
         $sql->bindValue(":id", $id);
         return $sql->execute();
+    }
+
+    public function login(Usuario $usuario){
+        $sql = $this->pdo->prepare(
+            "SELECT * FROM usuario WHERE email=:email"
+        );
+        $sql->bindValue(":email", $usuario->getEmail());
+        $sql->execute();
+        if($sql->rowCount()>0){
+            while($retorno = $sql->fetch()){
+                if($retorno["senha"] == $usuario->getSenha()){
+                    return $retorno;
+                }
+            }
+            return 1;//erro senha;
+        }
+        else{
+            return 0;//email nao cadastrado
+        }
     }
 
 }
