@@ -2,9 +2,15 @@
     session_start();
     if(!isset($_SESSION['logado'])){
         header("location:usuario/login.php");
+    } else {
+        $nomeUsuario = $_SESSION['nomeUsuario'];
+        if($_SESSION['admin']){
+            $nomeUsuario = $_SESSION['nomeUsuario'].' [ADM]';
+        }
     }
 
 ?>
+
 <!doctype html>
 <html class="no-js" lang="en">
 <head>
@@ -51,6 +57,12 @@
                         <li><a href="company-detail.php">Job Detail</a></li>
                         <li><a href="resume.php">Resume Detail</a></li>
                     </ul>
+                </li>
+                <li>
+                    <a><?=$nomeUsuario;?></a>
+                </li>
+                <li>
+                    <a href="usuario/logout.php">Sair</a>
                 </li>
             </ul>
         </div><!-- /.navbar-collapse -->
