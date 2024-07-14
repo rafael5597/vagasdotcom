@@ -21,9 +21,7 @@ CREATE TABLE `categoria` (
 CREATE TABLE `empresa` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `nome` VARCHAR(255) NOT NULL,
-	`nome` VARCHAR(255) NOT NULL,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id`)
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `vaga` (
@@ -34,8 +32,10 @@ CREATE TABLE `vaga` (
     `modalidade` VARCHAR(255) NOT NULL,
     `localizacao` VARCHAR(255) NOT NULL,
     `empresa_id` INT NOT NULL,
+    `categoria_id` INT NOT NULL,
     `data_pulicacao` DATETIME NOT NULL,
     `ativo` BOOLEAN NOT NULL DEFAULT 1,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`empresa_id`) REFERENCES `empresas`(`id`)
+    FOREIGN KEY (`categoria_id`) REFERENCES `categoria`(`id`),
+    FOREIGN KEY (`empresa_id`) REFERENCES `empresa`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
