@@ -6,7 +6,15 @@
 	include_once "../class/UsuarioDAO.class.php";
 
 	$objUsuario = new Usuario();
-	$objUsuario->setNome($_POST["nome"]);
+    $objUsuarioDAO = new UsuarioDAO();
+
+    // IMPORTANTE! Caso seja o primeiro usuário, será ADM!
+    $count = $objUsuarioDAO->contarUsuarios();
+    if(!$count > 0){
+        $objUsuario->setAdmin(true);
+    }
+
+    $objUsuario->setNome($_POST["nome"]);
     $objUsuario->setEmail($_POST["email"]);
 	$objUsuario->setSenha($_POST["senha"]);
     $objUsuario->setLinkLinkedin($_POST["link_linkedin"]);
@@ -21,13 +29,12 @@
 		echo "erro imagem";
 	$objUsuario->setFoto($nomeImagem);
 	
-	$objUsuarioDAO = new UsuarioDAO();
 	$retorno = $objUsuarioDAO->inserir($objUsuario);
 	
     if($retorno){
-		header('Location: '.'listar.php');
+		header('Location: login.php?cadastroOk');
 	}
 	else{
-		echo "erro ao cadastrar";
+        header('Location: inserir.php?cadastroError');
 	}
 ?>
