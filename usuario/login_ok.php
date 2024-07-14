@@ -19,5 +19,10 @@ else{
     $_SESSION['idUsuario'] = $retorno["id"];
     $_SESSION['logado'] = true;
     $_SESSION['nomeUsuario'] = $retorno["nome"];
-    header("location:../index.php");
+    $_SESSION['admin'] = $retorno["admin"];
+    if($_SESSION['admin']){
+        header("location:adm/index.php");
+    } else{
+        header("location:../index.php");
+    }
 }
