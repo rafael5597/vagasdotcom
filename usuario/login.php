@@ -7,7 +7,7 @@ if(isset($_SESSION['logado'])){
 
 $msg = '
     <div class="alert alert-info" role="alert">
-        Você precisa estar registrado para ver as vagas!
+        Você precisa entrar para ver as vagas!
     </div>';
 
 if(isset($_GET['erroEmail']))
@@ -16,10 +16,16 @@ $msg = '
         A simple danger alert—check it out!
     </div>';
 
-else if(isset($_GET['erroSenha']))
+if(isset($_GET['erroSenha']))
 $msg = '
     <div class="alert alert-danger" role="alert">
         A simple danger alert—check it out!
+    </div>';
+
+else if(isset($_GET['cadastroOk']))
+    $msg = '
+    <div class="alert alert-success" role="alert">
+        Seu usuário foi criado! <br> Entre agora para encontrar seu novo emprego!
     </div>';
 
 ?>
@@ -86,8 +92,8 @@ $msg = '
                         <input name="email" type="text" class="form-control input-lg" placeholder="Usuário (e-mail)">
 						<input name="senha" type="password" class="form-control input-lg" placeholder="Senha">
 						<!--<label><a href="">Forget Password?</a></label>-->
-						<button type="submit" class="btn btn-primary">Login</button>
-						<p>Ainda não tem uma conta? <a href="">Criar uma conta</a></p>
+						<button type="submit" class="btn btn-primary">Entrar</button>
+						<p>Ainda não tem uma conta? <a href="inserir.php">Criar uma conta</a></p>
 					</form>
 				</div>
 			</div>
