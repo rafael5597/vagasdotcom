@@ -17,16 +17,26 @@ class UsuarioDAO {
 
     public function inserir(Usuario $usuario){
         $sql = $this->pdo->prepare(
-            "INSERT INTO usuario (nome, email, senha, data_criacao, foto, link_linkedin) VALUES(:nome, :email, :senha, :data_criacao, :foto, :link_linkedin)"
+            "INSERT INTO usuario (nome, email, senha, admin, data_criacao, foto, link_linkedin) VALUES(:nome, :email, :senha, :admin, :data_criacao, :foto, :link_linkedin)"
         );
 
         $sql->bindValue(":nome",$usuario->getNome());
         $sql->bindValue(":email",$usuario->getEmail());
         $sql->bindValue(":senha",$usuario->getSenha());
+        $sql->bindValue(":admin",$usuario->getAdmin());
         $sql->bindValue(":data_criacao",$usuario->getDataCriacao());
         $sql->bindValue(":foto",$usuario->getFoto());
         $sql->bindValue(":link_linkedin",$usuario->getLinkLinkedin());
         return $sql->execute();
+    }
+
+    public function contarUsuarios(): int{
+        $sql = $this->pdo->prepare(
+            "SELECT count(*) AS nRows FROM usuario;"
+        );
+        $sql->execute();
+        $tmp = $sql->fetch();
+        return $tmp['nRows'];
     }
 
     public function listar(){
