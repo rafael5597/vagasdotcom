@@ -6,6 +6,8 @@ include_once "../../class/Usuario.class.php";
 include_once "../../class/UsuarioDAO.class.php";
 include_once "../../class/Categoria.class.php";
 include_once "../../class/CategoriaDAO.class.php";
+include_once "../../class/Empresa.class.php";
+include_once "../../class/EmpresaDAO.class.php";
 
 $msg = "";
 
@@ -28,14 +30,25 @@ if(!isset($_SESSION['logado'])){
     }
 }
 
+$objEmpresa = new Empresa();
+$objEmpresaDAO = new EmpresaDAO();
+
+$retorno = $objEmpresaDAO->listar();
+$selectOptionsEmp = '<option value="0">Selecione a empresa</option>';
+if($retorno){
+    foreach ($retorno as $row){
+        $selectOptionsEmp .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
+    }
+}
+
 $objCategoria = new Categoria();
 $objCategoriaDAO = new CategoriaDAO();
 
 $retorno = $objCategoriaDAO->listar();
-$selectOptions = '<option>Selecione a categoria</option>';
+$selectOptionsCat = '<option value="0">Selecione a categoria</option>';
 if($retorno){
     foreach ($retorno as $row){
-        $selectOptions .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
+        $selectOptionsCat .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
     }
 }
 
@@ -112,15 +125,20 @@ if($retorno){
                         <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
                             <?=$msg;?>
                             <form action="inserir_ok.php" method="POST" enctype="multipart/form-data">
-                                <select id="categoria" name="categoria" class="form-control input-lg" >
-                                    <?=$selectOptions?>
+                                <select id="empresa" name="empresa" class="form-control input-lg" required>
+                                    <?=$selectOptionsEmp?>
+                                </select>
+                                <select id="categoria" name="categoria" class="form-control input-lg" required>
+                                    <?=$selectOptionsCat?>
                                 </select>
                                 <input type="text" name="titulo" class="form-control input-lg" placeholder="Título da vaga" required/><br />
-                                <textarea name="descricao" class="form-control input-lg" placeholder="Descrição da vaga" rows="4"></textarea>
-                                <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br />
+                                <textarea name="descricao" class="form-control input-lg" placeholder="Descrição da vaga" rows="4"required></textarea>
+                                <!-- <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br /> -->
                                 <input type="text" name="modalidade" class="form-control input-lg" placeholder="Modalidade" required/><br />
-                                <input type="text" name="link_linkedin" class="form-control input-lg" placeholder="LinkedIn" required>
+                                <input type="text" name="localizacao" class="form-control input-lg" placeholder="Localização" required>
                                 <label for="foto">Selecione uma foto:</label><input type="file" name="foto" id="foto" class="form-control input-lg" required/><br />
+                                <input type="checkbox" class="form-check-input" id="ativo" name="ativo">
+                                <label class="form-check-label" for="ativo">Ativar vaga</label>
                                 <button type="submit" class="btn btn-success">REGISTRAR</button>
                             </form>
                         </div>
