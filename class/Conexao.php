@@ -5,7 +5,7 @@ class Conexao {
     private string $conn_pwd;
 
     public function __construct() {
-        $this->conn_srv = "mysql:host=localhost; port=3307;dbname=vagasdotcom";
+        $this->conn_srv = "mysql:host=localhost; port=3306;dbname=vagasdotcom";
         $this->conn_usr = "root";
         $this->conn_pwd = "root";
     }

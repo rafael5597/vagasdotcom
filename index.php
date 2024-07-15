@@ -1,11 +1,25 @@
 <?php
     session_start();
+
+    include_once "class/Usuario.class.php";
+    include_once "class/UsuarioDAO.class.php";
+
     if(!isset($_SESSION['logado'])){
         header("location:usuario/login.php");
     } else {
+
+        $objUsuario = new Usuario();
+        $objUsuarioDAO = new UsuarioDAO();
+        $objUsuario->setId($_SESSION['idUsuario']);
+        $retorno = $objUsuarioDAO->listarUmUsuario($objUsuario);
+
+        if(!$retorno){
+            header('location: usuario/logout.php');
+        }
+
         $nomeUsuario = $_SESSION['nomeUsuario'];
         if($_SESSION['admin']){
-            $nomeUsuario = $_SESSION['nomeUsuario'].' [ADM]';
+            header('location: usuario/adm/');
         }
     }
 

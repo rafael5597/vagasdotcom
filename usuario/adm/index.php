@@ -1,9 +1,52 @@
+<?php
+
+session_start();
+
+include_once "../../class/Usuario.class.php";
+include_once "../../class/UsuarioDAO.class.php";
+include_once "../../class/Categoria.class.php";
+include_once "../../class/CategoriaDAO.class.php";
+
+$msg = "";
+
+if(!isset($_SESSION['logado'])){
+    header("location:../usuario/login.php");
+} else {
+
+    $objUsuario = new Usuario();
+    $objUsuarioDAO = new UsuarioDAO();
+    $objUsuario->setId($_SESSION['idUsuario']);
+    $retorno = $objUsuarioDAO->listarUmUsuario($objUsuario);
+
+    if(!$retorno){
+        header('location: ../usuario/logout.php');
+    }
+
+    $nomeUsuario = $_SESSION['nomeUsuario'];
+    if($_SESSION['admin']){
+        $nomeUsuario = $_SESSION['nomeUsuario'].' [ADM]';
+    }
+}
+
+$objCategoria = new Categoria();
+$objCategoriaDAO = new CategoriaDAO();
+
+$retorno = $objCategoriaDAO->listar();
+$selectOptions = '<option>Selecione a categoria</option>';
+if($retorno){
+    foreach ($retorno as $row){
+        $selectOptions .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
+    }
+}
+
+?>
+
 <!doctype html>
 <html class="no-js" lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>Jober Desk | Responsive Job Portal Template</title>
+        <title>Vagas.Com | ADM</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 		
@@ -35,319 +78,56 @@
 				<div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
 							<li><a href="index.php">Home</a></li>
-							<li><a href="usuario/login.php">Login</a></li>
-							<li><a href="companies.php">Companies</a></li>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse</a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Vagas</a>
 								<ul class="dropdown-menu animated fadeOutUp" style="display: none; opacity: 1;">
-									<li class="active"><a href="browse-job.php">Browse Jobs</a></li>
-									<li><a href="company-detail.php">Job Detail</a></li>
-									<li><a href="resume.php">Resume Detail</a></li>
+									<li><a href="vagas_adm.php">Cadastrar</a></li>
+									<li><a href="company-detail.php">Listar</a></li>
 								</ul>
 							</li>
+                        <li>
+                            <a href="../../categoria/inserir.php">Categorias</a>
+                        </li>
+                        <li>
+                            <a><?=$nomeUsuario;?></a>
+                        </li>
+                        <li>
+                            <a href="usuario/logout.php">Sair</a>
+                        </li>
 						</ul>
 				</div><!-- /.navbar-collapse -->
 			</div>   
 		</nav>
 		<!-- Navigation End  -->
 		
-		<!-- Inner Banner -->
-		<section class="inner-banner" style="backend:#242c36 url(https://via.placeholder.com/1920x600)no-repeat;">
-			<div class="container">
-				<div class="caption">
-					<h2>Get your jobs</h2>
-					<p>Get your Popular jobs <span>202 New job</span></p>
-				</div>
-			</div>
-		</section>
-		
 		<section class="jobs">
 			<div class="container">
 				<div class="row heading">
-					<h2>Search Your Job</h2>
+					<h2>Cadastro de vaga</h2>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
 				</div>
-				<div class="row top-pad">
-					<div class="filter">
-						<div class="col-md-2 col-sm-3">
-							<p>Search By:</p>
-						</div>
-						
-						<div class="col-md-10 col-sm-9 pull-right">
-							<ul class="filter-list">
-								<li>
-									<input id="checkbox-1" class="checkbox-custom" name="checkbox-1" type="checkbox" checked="">
-									<label for="checkbox-1" class="part-time checkbox-custom-label">Part Time</label>
-								</li>
-								
-								<li>
-									<input id="checkbox-2" class="checkbox-custom" name="checkbox-2" type="checkbox">
-									<label for="checkbox-2" class="full-time checkbox-custom-label">Full Time</label>
-								</li>
-								
-								<li>
-									<input id="checkbox-3" class="checkbox-custom" name="checkbox-3" type="checkbox">
-									<label for="checkbox-3" class="freelancing checkbox-custom-label">Freelancing</label>
-								</li>
-								
-								<li>
-									<input id="checkbox-4" class="checkbox-custom" name="checkbox-4" type="checkbox">
-									<label for="checkbox-4" class="internship checkbox-custom-label">Internship</label>
-								</li>
+                <!-- formulario cadastro de vaga -->
+                <section class="login-wrapper">
+                    <div class="container">
+                        <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
+                            <?=$msg;?>
+                            <form action="inserir_ok.php" method="POST" enctype="multipart/form-data">
+                                <select id="categoria" name="categoria" class="form-control input-lg" >
+                                    <?=$selectOptions?>
+                                </select>
+                                <input type="text" name="titulo" class="form-control input-lg" placeholder="Título da vaga" required/><br />
+                                <textarea name="descricao" class="form-control input-lg" placeholder="Descrição da vaga" rows="4"></textarea>
+                                <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br />
+                                <input type="text" name="modalidade" class="form-control input-lg" placeholder="Modalidade" required/><br />
+                                <input type="text" name="link_linkedin" class="form-control input-lg" placeholder="LinkedIn" required>
+                                <label for="foto">Selecione uma foto:</label><input type="file" name="foto" id="foto" class="form-control input-lg" required/><br />
+                                <button type="submit" class="btn btn-success">REGISTRAR</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+                <!-- cadastro de vaga section End -->
 
-							</ul>	
-						</div>
-					</div>
-				</div>
-				<div class="companies">
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/google.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Front-End developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/microsoft.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Back-End developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/apple.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>UI/UX Developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/wipro.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>IOS developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/twitter.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Market Holder</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-									<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/microsoft.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Back-End developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/apple.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>UI/UX Developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/wipro.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>IOS developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/twitter.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Market Holder</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-									<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/microsoft.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Back-End developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/apple.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>UI/UX Developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/wipro.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>IOS developer</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="company-list">
-						<div class="row">
-							<div class="col-md-2 col-sm-2">
-								<div class="company-logo">
-									<img src="img/twitter.png" class="img-responsive" alt="" />
-								</div>
-							</div>
-							<div class="col-md-8 col-sm-8">
-								<div class="company-content">
-									<h3>Market Holder</h3>
-									<p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$25,000-$50,000</span></p>
-								</div>
-							</div>
-							<div class="col-md-2 col-sm-2">
-								<button type="submit" class="btn view-job" name="View Job">View Job</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<input type="button" class="btn brows-btn" value="Brows All Jobs" />
-				</div>
 			</div>
 		</section>
 

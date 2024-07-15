@@ -13,13 +13,13 @@ $msg = '
 if(isset($_GET['erroEmail']))
 $msg = '
     <div class="alert alert-danger" role="alert">
-        A simple danger alert—check it out!
+        Este usuário não existe!
     </div>';
 
 if(isset($_GET['erroSenha']))
 $msg = '
     <div class="alert alert-danger" role="alert">
-        A simple danger alert—check it out!
+        Senha inválida!
     </div>';
 
 else if(isset($_GET['cadastroOk']))
