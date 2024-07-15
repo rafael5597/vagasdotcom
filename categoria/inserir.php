@@ -1,5 +1,7 @@
 <?php
 include_once "../class/UsuarioDAO.class.php";
+include_once "../class/Categoria.class.php";
+include_once "../class/CategoriaDAO.class.php";
 
 $objUsuarioDAO = new UsuarioDAO();
 
@@ -10,6 +12,9 @@ if(!$count > 0){
                     Atenção! Você é o PRIMEIRO usuário, portanto será ADM!
                 </div>';
 }
+
+$objCategoriaDAO = new CategoriaDAO();
+$retorno = $objCategoriaDAO->listar();
 
 ?>
 <!DOCTYPE html>
@@ -81,10 +86,37 @@ if(!$count > 0){
             <?=$msg;?>
             <form action="inserir_ok.php" method="POST">
                 <input type="text" name="nome" required class="form-control input-lg" placeholder="Nome da categoria"/><br />
-                <button type="submit">Enviar</button>
+                <button type="submit" class="btn btn-success">Cadastrar</button>
             </form>
         </div>
     </div>
+
+    <div class="container">
+        <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
+            <table class="table">
+                <thead>
+                <th colspan="3"><p align="center">Categorias cadastradas</p></th>
+                </thead>
+                <tbody>
+                <?php
+                if(!$retorno){
+                    echo '<tr><td>Nenhuma categoria encontrada...</td><tr>';
+                } else {
+                    foreach ($retorno as $linha) {
+                        echo "
+				        <tr>
+					        <td><h5>" . $linha['nome'] . "</h5></td>
+					        <td><a href='editar.php?id=" . $linha['id'] . "'><button type='button' class='btn btn-info btn-sm'>Editar</button></a></td>
+					        <td><a href='excluir.php?id=" . $linha['id'] . "'><button type='button' class='btn btn-danger btn-sm'>Excluir</button></a></td>
+				        </tr>";
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
 </section>
 <!-- login section End -->
 

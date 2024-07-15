@@ -9,7 +9,7 @@
 	$retorno = $objCategoriaDAO->inserir($objCategoria);
 	
     if($retorno){
-		header('Location: '.'listar.php');
+		header('Location: inserir.php');
 	}
 	else{
 		echo "erro ao cadastrar";

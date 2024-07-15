@@ -9,7 +9,7 @@
 	$retorno = $objCategoriaDAO->excluir($objCategoria);
 	
 	if($retorno)
-		header("Location:listar.php?excluirOk");
+		header("Location:inserir.php?excluirOk");
 	else
-		header("Location:listar.php?excluirError");
+		header("Location:inserir.php?excluirError");
 ?>
