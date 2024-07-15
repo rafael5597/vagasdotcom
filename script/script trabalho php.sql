@@ -24,15 +24,6 @@ CREATE TABLE `empresa` (
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-CREATE TABLE `candidatura` (
-    `id_candidato` INT NOT NULL,
-    `id_vaga` INT NOT NULL,
-    `data_candidatura` DATETIME NOT NULL,
-    PRIMARY KEY (`id_candidato`, `id_vaga`),
-    FOREIGN KEY (`id_candidato`) REFERENCES `usuario`(`id`),
-    FOREIGN KEY (`id_vaga`) REFERENCES `vaga`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
 CREATE TABLE `vaga` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `titulo` VARCHAR(255) NOT NULL,
@@ -48,4 +39,13 @@ CREATE TABLE `vaga` (
     PRIMARY KEY (`id`),
     FOREIGN KEY (`categoria_id`) REFERENCES `categoria`(`id`),
     FOREIGN KEY (`empresa_id`) REFERENCES `empresa`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `candidatura` (
+    `id_candidato` INT NOT NULL,
+    `id_vaga` INT NOT NULL,
+    `data_candidatura` DATETIME NOT NULL,
+    PRIMARY KEY (`id_candidato`, `id_vaga`),
+    FOREIGN KEY (`id_candidato`) REFERENCES `usuario`(`id`),
+    FOREIGN KEY (`id_vaga`) REFERENCES `vaga`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
