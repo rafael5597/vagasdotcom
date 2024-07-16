@@ -2,7 +2,7 @@
 
 include_once "Conexao.php";
 
-class CategoriaDAO{
+class VagaDAO{
     private Conexao $conexao;
     private PDO $pdo;
 
@@ -16,38 +16,98 @@ class CategoriaDAO{
 
     public function inserir(Vaga $v){
         $sql = $this->pdo->prepare("
-            INSERT INTO vaga (titulo, descricao, cargo, modalidade, localizacao, empresa_id, categoria_id, data_pulicacao, ativo, imagem) VALUES (:titulo, :descricao, :cargo, :modalidade, :localizacao, :empresa_id, :categoria_id, :data_pulicacao, :ativo, :imagem)
+            INSERT INTO vaga (
+                              titulo,
+                              descricao,
+                              cargo, 
+                              modalidade,
+                              localizacao,
+                              empresa_id, 
+                              categoria_id, 
+                              data_publicacao,
+                              ativo, 
+                              imagem
+                        )
+            VALUES (
+                    :titulo, 
+                    :descricao,
+                    :cargo, 
+                    :modalidade,
+                    :localizacao,
+                    :empresa_id,
+                    :categoria_id, 
+                    :data_publicacao,
+                    :ativo, 
+                    :imagem
+            )
         ");
 
-        $sql->bindValue(1, $v->getTitulo());
-        $sql->bindValue(2, $v->getDescricao());
-        $sql->bindValue(3, $v->getCargo());
-        $sql->bindValue(4, $v->getCargo());
+        $sql->bindValue(':titulo', $v->getTitulo());
+        $sql->bindValue(':descricao', $v->getDescricao());
+        $sql->bindValue(':cargo', $v->getCargo());
+        $sql->bindValue(':modalidade', $v->getModalidade());
+        $sql->bindValue(':localizacao', $v->getLocalizacao());
+        $sql->bindValue(':empresa_id', $v->getEmpresaId());
+        $sql->bindValue(':categoria_id', $v->getCategoriaId());
+        $sql->bindValue(':data_publicacao', $v->getDataPublicacao());
+        $sql->bindValue(':ativo', $v->isAtivo());
+        $sql->bindValue(':imagem', $v->getImagem());
+
         return $sql->execute();
     }
 
     public function listar(){
-        $sql = $this->pdo->prepare("SELECT * FROM categoria");
+        $sql = $this->pdo->prepare("SELECT * FROM vaga");
         $sql->execute();
         return $sql->fetchAll();
     }
 
-    public function excluir(Categoria $c){
-        $sql = $this->pdo->prepare("DELETE FROM categoria WHERE id = ?");
-        $sql->bindValue(1, $c->getId());
+    public function contarVagas(): int{
+        $sql = $this->pdo->prepare(
+            "SELECT count(*) AS nRows FROM vaga;"
+        );
+        $sql->execute();
+        $tmp = $sql->fetch();
+        return $tmp['nRows'];
+    }
+
+    public function excluir(vaga $v){
+        $sql = $this->pdo->prepare("DELETE FROM vaga WHERE id = ?");
+        $sql->bindValue(1, $v->getId());
         return $sql->execute();
     }
 
-    public function editar(Categoria $c){
-        $sql = $this->pdo->prepare("UPDATE categoria SET nome = ? WHERE id = ?");
-        $sql->bindValue(1, $c->getNome());
-        $sql->bindValue(2, $c->getId());
+    public function editar(Vaga $v){
+        $sql = $this->pdo->prepare("
+            UPDATE vaga 
+            SET titulo = :titulo, 
+                descricao = :descricao,
+                cargo = :cargo,
+                modalidade = :modalidade, 
+                localizacao = :localizacao, 
+                empresa_id = :empresa_id, 
+                categoria_id = :categoria_id, 
+                data_publicacao = :data_publicacao, 
+                ativo = :ativo, 
+                imagem = :imagem
+            WHERE id = :id
+        ");
+        $sql->bindValue(':id', $v->getId());
+        $sql->bindValue(':titulo', $v->getTitulo());
+        $sql->bindValue(':descricao', $v->getDescricao());
+        $sql->bindValue(':cargo', $v->getCargo());
+        $sql->bindValue(':modalidade', $v->getModalidade());
+        $sql->bindValue(':localizacao', $v->getLocalizacao());
+        $sql->bindValue(':empresa_id', $v->getEmpresaId());
+        $sql->bindValue(':categoria_id', $v->getCategoriaId());
+        $sql->bindValue(':data_publicacao', $v->getDataPublicacao());
+        $sql->bindValue(':ativo', $v->isAtivo());
         return $sql->execute();
     }
 
-    public function listarPorId(Categoria $c){
+    public function listarPorId(Vaga $v){
         $sql = $this->pdo->prepare("SELECT * FROM categoria WHERE id = ?");
-        $sql->bindValue(1, $c->getId());
+        $sql->bindValue(1, $v->getId());
         $sql->execute();
         return $sql->fetch();
     }

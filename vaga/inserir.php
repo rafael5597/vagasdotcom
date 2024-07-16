@@ -1,20 +1,12 @@
 <?php
-include_once "../../class/Usuario.class.php";
-include_once "../../class/UsuarioDAO.class.php";
-include_once "../../class/Categoria.class.php";
-include_once "../../class/CategoriaDAO.class.php";
-include_once "../../class/Empresa.class.php";
-include_once "../../class/EmpresaDAO.class.php";
+include_once "../class/Usuario.class.php";
+include_once "../class/UsuarioDAO.class.php";
+include_once "../class/Categoria.class.php";
+include_once "../class/CategoriaDAO.class.php";
+include_once "../class/Empresa.class.php";
+include_once "../class/EmpresaDAO.class.php";
 
-$objUsuarioDAO = new UsuarioDAO();
-
-$msg = '';
-$count = $objUsuarioDAO->contarUsuarios();
-if(!$count > 0){
-    $msg = '<div class="alert alert-warning" role="alert">
-                    Atenção! Você é o PRIMEIRO usuário, portanto será ADM!
-                </div>';
-}
+$msg = "";
 
 $objEmpresa = new Empresa();
 $objEmpresaDAO = new EmpresaDAO();
@@ -23,7 +15,7 @@ $retorno = $objEmpresaDAO->listar();
 $selectOptionsEmp = '<option value="0">Selecione a empresa</option>';
 if($retorno){
     foreach ($retorno as $row){
-        $selectOptionsEmp .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
+        $selectOptionsEmp .= '<option value="'.$row['id'].'">'.$row['nome'].'</option>';
     }
 }
 
@@ -34,11 +26,12 @@ $retorno = $objCategoriaDAO->listar();
 $selectOptionsCat = '<option value="0">Selecione a categoria</option>';
 if($retorno){
     foreach ($retorno as $row){
-        $selectOptionsCat .= '<option value="'.$row['nome'].'">'.$row['nome'].'</option>';
+        $selectOptionsCat .= '<option value="'.$row['id'].'">'.$row['nome'].'</option>';
     }
 }
 
 ?>
+
 <!DOCTYPE html>
 <html>
 <head></head>
@@ -104,11 +97,23 @@ if($retorno){
 <section class="login-wrapper">
     <div class="container">
         <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-            <img class="img-responsive" alt="logo" src="../img/logo.png">
             <?=$msg;?>
-            <form action="inserir_ok.php" method="POST">
-                <input type="text" name="nome" required class="form-control input-lg" placeholder="Nome da categoria"/><br />
-                <button type="submit" class="btn btn-success">Cadastrar</button>
+            <form action="inserir_ok.php" method="POST" enctype="multipart/form-data">
+                <select id="empresa" name="empresa" class="form-control input-lg" required>
+                    <?=$selectOptionsEmp?>
+                </select>
+                <select id="categoria" name="categoria" class="form-control input-lg" required>
+                    <?=$selectOptionsCat?>
+                </select>
+                <input type="text" name="titulo" class="form-control input-lg" placeholder="Título da vaga" required/><br />
+                <textarea name="descricao" class="form-control input-lg" placeholder="Descrição da vaga" rows="4"required></textarea>
+                <!-- <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br /> -->
+                <input type="text" name="modalidade" class="form-control input-lg" placeholder="Modalidade" required/><br />
+                <input type="text" name="localizacao" class="form-control input-lg" placeholder="Localização" required>
+                <label for="foto">Selecione uma foto:</label><input type="file" name="foto" id="foto" class="form-control input-lg" required/><br />
+                <input type="checkbox" class="form-check-input" id="ativo" name="ativo">
+                <label class="form-check-label" for="ativo">Ativar vaga</label>
+                <button type="submit" class="btn btn-success">REGISTRAR</button>
             </form>
         </div>
     </div>

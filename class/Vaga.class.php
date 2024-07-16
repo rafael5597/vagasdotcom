@@ -12,7 +12,7 @@
         private int $categoria_id;
         private string $data_publicacao;
         private bool $ativo;
-        private bool $imagem;
+        private string $imagem;
 
         public function __construct(){
 
@@ -118,12 +118,12 @@
             $this->ativo = $ativo;
         }
 
-        public function isImagem(): bool
+        public function getImagem(): string
         {
             return $this->imagem;
         }
 
-        public function setImagem(bool $imagem): void
+        public function setImagem(string $imagem): void
         {
             $this->imagem = $imagem;
         }
