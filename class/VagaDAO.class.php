@@ -56,8 +56,12 @@ class VagaDAO{
         return $sql->execute();
     }
 
-    public function listar(){
-        $sql = $this->pdo->prepare("SELECT * FROM vaga");
+    public function listar(int $limite){
+        $sqlLimit = "";
+        if($limite > 0){
+            $sqlLimit = " LIMIT $limite";
+        }
+        $sql = $this->pdo->prepare("SELECT * FROM vaga ORDER BY id DESC".$sqlLimit);
         $sql->execute();
         return $sql->fetchAll();
     }
