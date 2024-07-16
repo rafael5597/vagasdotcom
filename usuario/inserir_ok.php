@@ -13,7 +13,6 @@
     if(!$count > 0){
         $objUsuario->setAdmin(true);
     }
-
     $objUsuario->setNome($_POST["nome"]);
     $objUsuario->setEmail($_POST["email"]);
 	$objUsuario->setSenha($_POST["senha"]);

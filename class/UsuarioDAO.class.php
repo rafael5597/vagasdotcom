@@ -23,7 +23,7 @@ class UsuarioDAO {
         $sql->bindValue(":nome",$usuario->getNome());
         $sql->bindValue(":email",$usuario->getEmail());
         $sql->bindValue(":senha",$usuario->getSenha());
-        $sql->bindValue(":admin",$usuario->getAdmin());
+        $sql->bindValue(":admin",$usuario->isAdmin(), PDO::PARAM_BOOL);
         $sql->bindValue(":data_criacao",$usuario->getDataCriacao());
         $sql->bindValue(":foto",$usuario->getFoto());
         $sql->bindValue(":link_linkedin",$usuario->getLinkLinkedin());
