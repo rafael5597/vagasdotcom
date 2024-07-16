@@ -33,7 +33,7 @@ CREATE TABLE `vaga` (
     `localizacao` VARCHAR(255) NOT NULL,
     `empresa_id` INT NOT NULL,
     `categoria_id` INT NOT NULL,
-    `data_pulicacao` DATETIME NOT NULL,
+    `data_publicacao` DATETIME NOT NULL,
     `ativo` BOOLEAN NOT NULL DEFAULT 1,
     `imagem` VARCHAR(255),
     PRIMARY KEY (`id`),
