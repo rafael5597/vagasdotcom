@@ -26,22 +26,31 @@ class EmpresaDAO{
         return $sql->fetchAll();
     }
 
+    public function contarEmpresas(): int{
+        $sql = $this->pdo->prepare(
+            "SELECT count(*) AS nRows FROM empresa;"
+        );
+        $sql->execute();
+        $tmp = $sql->fetch();
+        return $tmp['nRows'];
+    }
+
     public function excluir(Empresa $e){
         $sql = $this->pdo->prepare("DELETE FROM empresa WHERE id = ?");
         $sql->bindValue(1, $e->getId());
         return $sql->execute();
     }
 
-    public function editar(Categoria $c){
-        $sql = $this->pdo->prepare("UPDATE categoria SET nome = ? WHERE id = ?");
-        $sql->bindValue(1, $c->getNome());
-        $sql->bindValue(2, $c->getId());
+    public function editar(Empresa $e){
+        $sql = $this->pdo->prepare("UPDATE empresa SET nome = ? WHERE id = ?");
+        $sql->bindValue(1, $e->getNome());
+        $sql->bindValue(2, $e->getId());
         return $sql->execute();
     }
 
-    public function listarPorId(Categoria $c){
-        $sql = $this->pdo->prepare("SELECT * FROM categoria WHERE id = ?");
-        $sql->bindValue(1, $c->getId());
+    public function listarPorId(Empresa $e){
+        $sql = $this->pdo->prepare("SELECT * FROM empresa WHERE id = ?");
+        $sql->bindValue(1, $e->getId());
         $sql->execute();
         return $sql->fetch();
     }
