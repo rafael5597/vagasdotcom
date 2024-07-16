@@ -112,43 +112,67 @@ if($retorno){
 			</div>   
 		</nav>
 		<!-- Navigation End  -->
-		
-		<section class="jobs">
-			<div class="container">
-				<div class="row heading">
-					<h2>Cadastro de vaga</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
-				</div>
-                <!-- formulario cadastro de vaga -->
-                <section class="login-wrapper">
-                    <div class="container">
-                        <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-                            <?=$msg;?>
-                            <form action="inserir_ok.php" method="POST" enctype="multipart/form-data">
-                                <select id="empresa" name="empresa" class="form-control input-lg" required>
-                                    <?=$selectOptionsEmp?>
-                                </select>
-                                <select id="categoria" name="categoria" class="form-control input-lg" required>
-                                    <?=$selectOptionsCat?>
-                                </select>
-                                <input type="text" name="titulo" class="form-control input-lg" placeholder="Título da vaga" required/><br />
-                                <textarea name="descricao" class="form-control input-lg" placeholder="Descrição da vaga" rows="4"required></textarea>
-                                <!-- <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br /> -->
-                                <input type="text" name="modalidade" class="form-control input-lg" placeholder="Modalidade" required/><br />
-                                <input type="text" name="localizacao" class="form-control input-lg" placeholder="Localização" required>
-                                <label for="foto">Selecione uma foto:</label><input type="file" name="foto" id="foto" class="form-control input-lg" required/><br />
-                                <input type="checkbox" class="form-check-input" id="ativo" name="ativo">
-                                <label class="form-check-label" for="ativo">Ativar vaga</label>
-                                <button type="submit" class="btn btn-success">REGISTRAR</button>
-                            </form>
+
+        <section class="jobs">
+            <div class="container">
+                <div class="row heading">
+                    <h2>ADM - Gerenciar vagas de emprego</h2>
+                    <p>Aqui é possível incluir, excluir, listar os candidatos e etc.. </p>
+                </div>
+                <div class="companies">
+                    <div class="company-list">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <div class="company-logo">
+                                    <img src="img/google.png" class="img-responsive" alt="" />
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div class="company-content">
+                                    <h3>IOS Developer<span class="full-time">Full Time</span></h3>
+                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 07th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$22,000-$50,000</span></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </section>
-                <!-- cadastro de vaga section End -->
 
-			</div>
-		</section>
+                    <div class="company-list">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <div class="company-logo">
+                                    <img src="img/microsoft.png" class="img-responsive" alt="" />
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div class="company-content">
+                                    <h3>Back-End developer<span class="part-time">Part Time</span></h3>
+                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Microsoft</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$20,000-$52,000</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="company-list">
+                        <div class="row">
+                            <div class="col-md-2 col-sm-2">
+                                <div class="company-logo">
+                                    <img src="img/apple.png" class="img-responsive" alt="" />
+                                </div>
+                            </div>
+                            <div class="col-md-10 col-sm-10">
+                                <div class="company-content">
+                                    <h3>UI/UX Designer<span class="freelance">Freelance</span></h3>
+                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Apple</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$22,000-$50,000</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <input type="button" class="btn brows-btn" value="Brows All Jobs" />
+                </div>
+            </div>
+        </section>
 
 		<!-- footer start -->
 		<footer>
