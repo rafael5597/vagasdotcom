@@ -1,10 +1,13 @@
 <?php
+session_start();
+
 include_once "../class/Vaga.class.php";
 include_once "../class/VagaDAO.class.php";
 include_once "../class/Empresa.class.php";
 include_once "../class/EmpresaDAO.class.php";
 include_once "../class/Categoria.class.php";
 include_once "../class/EmpresaDAO.class.php";
+include_once "../class/Usuario.class.php";
 
 $objVaga = new Vaga();
 $objVagaDAO = new VagaDAO();
@@ -16,12 +19,30 @@ $objEmpresaDAO = new EmpresaDAO();
 $objEmpresa->setId($vaga['empresa_id']);
 $emp = $objEmpresaDAO->listarPorId($objEmpresa);
 
-if($vaga['ativo']){
-    $btnAtivo = '<a href="ativa_desativa.php?id='.$objEmpresa->getId().'"><button style="margin-top: 5px;" type="button" class="btn-danger btn-sm">Desativar vaga</button></a>';
+$objUsuario = new Usuario();
 
+$botoes = "";
+
+if($_SESSION["admin"]){
+    $botoes .= '<button style="margin-top: 5px;" type="button" class="btn-info btn-sm">Editar Informações</button>';
+
+    if($vaga['ativo']){
+        $botoes .= '<a href="ativa_desativa.php?id='.$objVaga->getId().'"><button style="margin-top: 5px;" type="button" class="btn-danger btn-sm">Desativar vaga</button></a>';
+
+    } else {
+        $botoes .= '<a href="ativa_desativa.php?id='.$objVaga->getId().'"><button style="margin-top: 5px;" type="button" class="btn-success btn-sm">Ativar vaga</button>';
+    }
 } else {
-    $btnAtivo = '<a href="ativa_desativa.php?id='.$objEmpresa->getId().'"><button style="margin-top: 5px;" type="button" class="btn-success btn-sm">Ativar vaga</button>';
+    $objUsuario->setId($_SESSION['idUsuario']);
+    $ret = $objVagaDAO->listarCandidaturaPorId($objUsuario, $objVaga);
+    if($ret['qtd'] > 0){
+        $botoes .= '<a href="inscreverse.php?action=desistir&id='.$objVaga->getId().'"><button style="margin-top: 5px;" type="button" class="btn-danger btn-lg">Desistir da vaga</button>';
+    } else {
+        $botoes .= '<a href="inscreverse.php?id='.$objVaga->getId().'"><button style="margin-top: 5px;" type="button" class="btn-success btn-lg">Inscrever-se!</button>';
+    }
+
 }
+
 
 ?>
 <!doctype html>
@@ -60,7 +81,7 @@ if($vaga['ativo']){
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
-							<li><a href="index.html">Home</a></li> 
+							<li><a href="../usuario/adm/index.php">Home</a></li>
 							<li><a href="login.html">Login</a></li>
 							<li><a href="companies.html">Companies</a></li> 
 							<li class="dropdown">
@@ -84,8 +105,7 @@ if($vaga['ativo']){
 					<div class="basic-information">
 						<div class="col-md-3 col-sm-3" align="center">
                             <img src='imagens/<?=$vaga['imagem'];?>'" alt="" class="img-responsive">
-                            <button style="margin-top: 5px;" type="button" class="btn-info btn-sm">Editar Informações</button>
-                            <?=$btnAtivo;?>
+                            <?=$botoes;?>
                         </div>
                         <div class="col-md-9 col-sm-9">
 							<div class="profile-content">
