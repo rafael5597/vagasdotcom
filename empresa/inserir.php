@@ -62,8 +62,7 @@ $retorno = $objEmpresaDAO->listar();
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="../companies.php">Companies</a></li>
+                <li><a href="../categoria/inserir.php">Categorias</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse</a>
                     <ul class="dropdown-menu animated fadeOutUp" style="display: none; opacity: 1;">
@@ -81,8 +80,11 @@ $retorno = $objEmpresaDAO->listar();
 <!-- login section start -->
 <section class="login-wrapper">
     <div class="container">
+        <div class="row heading">
+            <h2>ADM - Cadastro de empresa</h2>
+            <p>Empresa que está ofertando vagas</p>
+        </div>
         <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-            <img class="img-responsive" alt="logo" src="../img/logo.png">
             <?=$msg;?>
             <form action="inserir_ok.php" method="POST">
                 <input type="text" name="nome" required class="form-control input-lg" placeholder="Nome da empresa"/><br />
