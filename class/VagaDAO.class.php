@@ -50,7 +50,7 @@ class VagaDAO{
         $sql->bindValue(':empresa_id', $v->getEmpresaId());
         $sql->bindValue(':categoria_id', $v->getCategoriaId());
         $sql->bindValue(':data_publicacao', $v->getDataPublicacao());
-        $sql->bindValue(':ativo', $v->isAtivo());
+        $sql->bindValue(':ativo', $v->isAtivo(), PDO::PARAM_BOOL);
         $sql->bindValue(':imagem', $v->getImagem());
 
         return $sql->execute();
@@ -106,6 +106,13 @@ class VagaDAO{
         $sql->bindValue(':categoria_id', $v->getCategoriaId());
         $sql->bindValue(':data_publicacao', $v->getDataPublicacao());
         $sql->bindValue(':ativo', $v->isAtivo());
+        return $sql->execute();
+    }
+
+    public function atualizaStatus(Vaga $v){
+        $sql = $this->pdo->prepare("UPDATE vaga SET ativo = :ativo WHERE id = :id");
+        $sql->bindValue(":ativo", $v->isAtivo(), PDO::PARAM_BOOL);
+        $sql->bindValue(":id", $v->getId(),PDO::PARAM_INT);
         return $sql->execute();
     }
 

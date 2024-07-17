@@ -65,7 +65,7 @@ foreach ($vagas as $vaga){
     $emp = $objEmpresaDAO->listarPorId($objEmpresa);
 
     $vagaHtml .= '
-    <a href="vag/vaga.html"><div class="company-list">
+    <a href="vaga/vaga.php?id='.$vaga["id"].'"><div class="company-list">
         <div class="row">
             <div class="col-md-2 col-sm-2">
                 <div class="company-logo">

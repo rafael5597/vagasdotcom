@@ -17,10 +17,10 @@ $objEmpresa->setId($vaga['empresa_id']);
 $emp = $objEmpresaDAO->listarPorId($objEmpresa);
 
 if($vaga['ativo']){
-    $btnAtivo = '<button style="margin-top: 5px;" type="button" class="btn-danger btn-sm">Desativar vaga</button>';
+    $btnAtivo = '<a href="ativa_desativa.php?id='.$objEmpresa->getId().'"><button style="margin-top: 5px;" type="button" class="btn-danger btn-sm">Desativar vaga</button></a>';
 
 } else {
-    $btnAtivo = '<button style="margin-top: 5px;" type="button" class="btn-success btn-sm">Ativar vaga</button>';
+    $btnAtivo = '<a href="ativa_desativa.php?id='.$objEmpresa->getId().'"><button style="margin-top: 5px;" type="button" class="btn-success btn-sm">Ativar vaga</button>';
 }
 
 ?>
