@@ -27,9 +27,13 @@ if(!isset($_SESSION['logado'])){
     }
 
     $nomeUsuario = $_SESSION['nomeUsuario'];
-    if($_SESSION['admin']){
-        $nomeUsuario = $_SESSION['nomeUsuario'].' [ADM]';
+
+    if(!$_SESSION['admin']){
+        header("location:../../index.php");
     }
+
+    $nomeUsuario = $_SESSION['nomeUsuario'].' [ADM]';
+
 }
 
 $objEmpresa = new Empresa();
@@ -71,24 +75,26 @@ foreach ($vagas as $vaga){
     $objCategoria->setId($vaga["categoria_id"]);
     $cat = $objCategoriaDAO->listarPorId($objCategoria);
 
-    $class = "intership";
-
     if($cat["nome"] == "Tempo Integral"){
         $class="full-time";
-    }
-
-    if($cat["nome"] == "Meio Período" || $cat["nome"] == "Meio Periodo"){
+    } else if($cat["nome"] == "Meio Período" || $cat["nome"] == "Meio Periodo"){
         $class="part-time";
-    }
-
-    if($cat["nome"] == "Freelance" || $cat["nome"] == "Freelancer"){
+    } else if($cat["nome"] == "Freelance" || $cat["nome"] == "Freelancer"){
         $class="freelance";
+    } else {
+        $class = "intership";
     }
 
     $objEmpresa->setId($vaga["empresa_id"]);
     $emp = $objEmpresaDAO->listarPorId($objEmpresa);
 
+    $classH3 = '';
+    $textoDesativada = "";
 
+    if(!$vaga['ativo']){
+        $classH3 = 'style="color: #da0833"';
+        $textoDesativada = " (desativada)";
+    }
 
     $vagaHtml .= '
     <a href="../../vaga/vaga.php?id='.$vaga["id"].'"><div class="company-list">
@@ -100,7 +106,7 @@ foreach ($vagas as $vaga){
             </div>
             <div class="col-md-10 col-sm-10">
                 <div class="company-content">
-                    <h3>'.$vaga["titulo"].'<span class="internship">'.$cat["nome"].'</span></h3>
+                    <h3 '.$classH3.'>'.$vaga["titulo"].$textoDesativada.'<span class="'.$class.'">'.$cat["nome"].'</span></h3>
                         <p><span class="company-name"><i class="fa fa-briefcase"></i>'.$emp["nome"].'</span><span class="company-location"><i class="fa fa-map-marker"></i>'.$vaga["localizacao"].'</span><span class="package"><i class="fa fa-money"></i>$24,000-$52,000</span></p>
                 </div>
             </div>
@@ -162,7 +168,7 @@ foreach ($vagas as $vaga){
                             <a><?=$nomeUsuario;?></a>
                         </li>
                         <li>
-                            <a href="usuario/logout.php">Sair</a>
+                            <a href="../logout.php">Sair</a>
                         </li>
 						</ul>
 				</div><!-- /.navbar-collapse -->
