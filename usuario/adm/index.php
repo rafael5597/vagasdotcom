@@ -8,6 +8,8 @@ include_once "../../class/Categoria.class.php";
 include_once "../../class/CategoriaDAO.class.php";
 include_once "../../class/Empresa.class.php";
 include_once "../../class/EmpresaDAO.class.php";
+include_once "../../class/Vaga.class.php";
+include_once "../../class/vagaDAO.class.php";
 
 $msg = "";
 
@@ -52,6 +54,59 @@ if($retorno){
     }
 }
 
+$objVagaDAO = new VagaDAO();
+$qtdVagas = $objVagaDAO->contarVagas();
+
+$objEmpresaDAO = new EmpresaDAO();
+$objEmpresa = new Empresa();
+$qtdEmpresas = $objEmpresaDAO->contarEmpresas();
+
+$objCategoriaDAO = new CategoriaDAO();
+$objCategoria = new Categoria();
+
+$vagaHtml = '';
+$vagas = $objVagaDAO->listar(5);
+
+foreach ($vagas as $vaga){
+    $objCategoria->setId($vaga["categoria_id"]);
+    $cat = $objCategoriaDAO->listarPorId($objCategoria);
+
+    $class = "intership";
+
+    if($cat["nome"] == "Tempo Integral"){
+        $class="full-time";
+    }
+
+    if($cat["nome"] == "Meio Período" || $cat["nome"] == "Meio Periodo"){
+        $class="part-time";
+    }
+
+    if($cat["nome"] == "Freelance" || $cat["nome"] == "Freelancer"){
+        $class="freelance";
+    }
+
+    $objEmpresa->setId($vaga["empresa_id"]);
+    $emp = $objEmpresaDAO->listarPorId($objEmpresa);
+
+    $vagaHtml .= '
+    <a href="../../vaga/vaga.php?id='.$vaga["id"].'"><div class="company-list">
+        <div class="row">
+            <div class="col-md-2 col-sm-2">
+                <div class="company-logo">
+                    <img src="../../vaga/imagens/'.$vaga["imagem"].'" class="img-responsive" alt="" />
+                </div>
+            </div>
+            <div class="col-md-10 col-sm-10">
+                <div class="company-content">
+                    <h3>'.$vaga["titulo"].'<span class="internship">'.$cat["nome"].'</span></h3>
+                        <p><span class="company-name"><i class="fa fa-briefcase"></i>'.$emp["nome"].'</span><span class="company-location"><i class="fa fa-map-marker"></i>'.$vaga["localizacao"].'</span><span class="package"><i class="fa fa-money"></i>$24,000-$52,000</span></p>
+                </div>
+            </div>
+        </div>
+    </div></a>
+';
+}
+
 ?>
 
 <!doctype html>
@@ -94,7 +149,7 @@ if($retorno){
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown">Vagas</a>
 								<ul class="dropdown-menu animated fadeOutUp" style="display: none; opacity: 1;">
-									<li><a href="vagas_adm.php">Cadastrar</a></li>
+									<li><a href="../../vaga/inserir.php">Cadastrar</a></li>
 									<li><a href="company-detail.php">Listar</a></li>
 								</ul>
 							</li>
@@ -120,53 +175,7 @@ if($retorno){
                     <p>Aqui é possível incluir, excluir, listar os candidatos e etc.. </p>
                 </div>
                 <div class="companies">
-                    <div class="company-list">
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2">
-                                <div class="company-logo">
-                                    <img src="img/google.png" class="img-responsive" alt="" />
-                                </div>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="company-content">
-                                    <h3>IOS Developer<span class="full-time">Full Time</span></h3>
-                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Google</span><span class="company-location"><i class="fa fa-map-marker"></i> 07th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$22,000-$50,000</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="company-list">
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2">
-                                <div class="company-logo">
-                                    <img src="img/microsoft.png" class="img-responsive" alt="" />
-                                </div>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="company-content">
-                                    <h3>Back-End developer<span class="part-time">Part Time</span></h3>
-                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Microsoft</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$20,000-$52,000</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="company-list">
-                        <div class="row">
-                            <div class="col-md-2 col-sm-2">
-                                <div class="company-logo">
-                                    <img src="img/apple.png" class="img-responsive" alt="" />
-                                </div>
-                            </div>
-                            <div class="col-md-10 col-sm-10">
-                                <div class="company-content">
-                                    <h3>UI/UX Designer<span class="freelance">Freelance</span></h3>
-                                    <p><span class="company-name"><i class="fa fa-briefcase"></i>Apple</span><span class="company-location"><i class="fa fa-map-marker"></i> 7th Avenue, New York, NY, United States</span><span class="package"><i class="fa fa-money"></i>$22,000-$50,000</span></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?=$vagaHtml?>
                 </div>
                 <div class="row">
                     <input type="button" class="btn brows-btn" value="Brows All Jobs" />
