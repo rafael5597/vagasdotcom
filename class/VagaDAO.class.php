@@ -123,5 +123,32 @@ class VagaDAO{
         return $sql->fetch();
     }
 
+    public function adicionarCandidatura(Usuario $u, Vaga $v){
+        $sql = $this->pdo->prepare("INSERT INTO candidatura(id_candidato, id_vaga, data_candidatura) VALUES (:id_candidato, :id_vaga, :data_candidatura)");
+        $sql->bindValue(":id_candidato", $u->getId(), PDO::PARAM_INT);
+        $sql->bindValue(":id_vaga", $v->getId(),PDO::PARAM_INT);
+        $sql->bindValue(":data_candidatura", date('Y-m-d H-i-s'));
+        return $sql->execute();
+    }
+
+    public function removerCandidatura(Usuario $u, Vaga $v){
+        $sql = $this->pdo->prepare("DELETE FROM candidatura WHERE id_candidato = :id_candidato AND id_vaga = :id_vaga;");
+        $sql->bindValue(":id_candidato", $u->getId());
+        $sql->bindValue(":id_vaga", $v->getId());
+        return $sql->execute();
+    }
+
+    public function listarCandidaturas(){
+
+    }
+
+    public function listarCandidaturaPorId(Usuario $u, Vaga $v){
+        $sql = $this->pdo->prepare("SELECT *, count(*) As qtd FROM candidatura c WHERE c.id_candidato = :id_candidato AND c.id_vaga = :id_vaga;");
+        $sql->bindValue(":id_candidato", $u->getId());
+        $sql->bindValue(":id_vaga", $v->getId());
+        $sql->execute();
+        return $sql->fetch();
+    }
+
 }
 ?>
