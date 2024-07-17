@@ -4,6 +4,7 @@ session_start();
 include_once "class/Usuario.class.php";
 include_once "class/UsuarioDAO.class.php";
 include_once "class/VagaDAO.class.php";
+include_once "class/Vaga.class.php";
 include_once "class/EmpresaDAO.class.php";
 include_once "class/Empresa.class.php";
 include_once "class/CategoriaDAO.class.php";
@@ -44,6 +45,13 @@ $vagaHtml = '';
 $vagas = $objVagaDAO->listar(5);
 
 foreach ($vagas as $vaga){
+
+    
+    $ret = $objVagaDAO->listarCandidaturaPorId($objUsuario, $vaga);
+    if($ret['qtd'] > 0){
+
+    }
+
     $objCategoria->setId($vaga["categoria_id"]);
     $cat = $objCategoriaDAO->listarPorId($objCategoria);
 
