@@ -41,21 +41,35 @@ $objCategoria = new Categoria();
 $qtdUsuarios = $objUsuarioDAO->contarUsuarios();
 
 $vagaHtml = '';
-$vagas = $objVagaDAO->listar();
+$vagas = $objVagaDAO->listar(5);
 
 foreach ($vagas as $vaga){
     $objCategoria->setId($vaga["categoria_id"]);
     $cat = $objCategoriaDAO->listarPorId($objCategoria);
 
+    $class = "intership";
+
+    if($cat["nome"] == "Tempo Integral"){
+        $class="full-time";
+    }
+
+    if($cat["nome"] == "Meio Período" || $cat["nome"] == "Meio Periodo"){
+        $class="part-time";
+    }
+
+    if($cat["nome"] == "Freelance" || $cat["nome"] == "Freelancer"){
+        $class="freelance";
+    }
+
     $objEmpresa->setId($vaga["empresa_id"]);
     $emp = $objEmpresaDAO->listarPorId($objEmpresa);
 
     $vagaHtml .= '
-    <div class="company-list">
+    <a href="vag/vaga.html"><div class="company-list">
         <div class="row">
             <div class="col-md-2 col-sm-2">
                 <div class="company-logo">
-                    <img src="img/wipro.png" class="img-responsive" alt="" />
+                    <img src="vaga/imagens/'.$vaga["imagem"].'" class="img-responsive" alt="" />
                 </div>
             </div>
             <div class="col-md-10 col-sm-10">
@@ -65,7 +79,7 @@ foreach ($vagas as $vaga){
                 </div>
             </div>
         </div>
-    </div>
+    </div></a>
 ';
 }
 
