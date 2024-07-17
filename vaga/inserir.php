@@ -77,8 +77,7 @@ if($retorno){
         <div class="collapse navbar-collapse" id="navbar-menu">
             <ul class="nav navbar-nav navbar-right" data-in="fadeInDown" data-out="fadeOutUp">
                 <li><a href="../index.php">Home</a></li>
-                <li><a href="login.php">Login</a></li>
-                <li><a href="../companies.php">Companies</a></li>
+                <li><a href="../empresa/inserir.php">Empresas</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Browse</a>
                     <ul class="dropdown-menu animated fadeOutUp" style="display: none; opacity: 1;">
@@ -96,6 +95,10 @@ if($retorno){
 <!-- login section start -->
 <section class="login-wrapper">
     <div class="container">
+        <div class="row heading">
+            <h2>ADM - Cadastro de vaga</h2>
+            <p>Preencha as informações sobre a vaga com precisão!</p>
+        </div>
         <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
             <?=$msg;?>
             <form action="inserir_ok.php" method="POST" enctype="multipart/form-data">
@@ -110,37 +113,11 @@ if($retorno){
                 <!-- <input type="text" name="cargo" class="form-control input-lg" placeholder="Cargo" required/><br /> -->
                 <input type="text" name="modalidade" class="form-control input-lg" placeholder="Modalidade" required/><br />
                 <input type="text" name="localizacao" class="form-control input-lg" placeholder="Localização" required>
-                <label for="foto">Selecione uma foto:</label><input type="file" name="foto" id="foto" class="form-control input-lg" required/><br />
+                <label for="imagem">Selecione uma imagem:</label><input type="file" name="imagem" id="imagem" class="form-control input-lg" required/><br />
                 <input type="checkbox" class="form-check-input" id="ativo" name="ativo">
                 <label class="form-check-label" for="ativo">Ativar vaga</label>
                 <button type="submit" class="btn btn-success">REGISTRAR</button>
             </form>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="col-md-6 col-sm-8 col-md-offset-3 col-sm-offset-2">
-            <table class="table">
-                <thead>
-                <th colspan="3"><p align="center">Categorias cadastradas</p></th>
-                </thead>
-                <tbody>
-                <?php
-                if(!$retorno){
-                    echo '<tr><td>Nenhuma categoria encontrada...</td><tr>';
-                } else {
-                    foreach ($retorno as $linha) {
-                        echo "
-				        <tr>
-					        <td><h5>" . $linha['nome'] . "</h5></td>
-					        <td><a href='editar.php?id=" . $linha['id'] . "'><button type='button' class='btn btn-info btn-sm'>Editar</button></a></td>
-					        <td><a href='excluir.php?id=" . $linha['id'] . "'><button type='button' class='btn btn-danger btn-sm'>Excluir</button></a></td>
-				        </tr>";
-                    }
-                }
-                ?>
-                </tbody>
-            </table>
         </div>
     </div>
 

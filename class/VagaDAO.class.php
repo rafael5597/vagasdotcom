@@ -110,7 +110,7 @@ class VagaDAO{
     }
 
     public function listarPorId(Vaga $v){
-        $sql = $this->pdo->prepare("SELECT * FROM categoria WHERE id = ?");
+        $sql = $this->pdo->prepare("SELECT * FROM vaga WHERE id = ?");
         $sql->bindValue(1, $v->getId());
         $sql->execute();
         return $sql->fetch();

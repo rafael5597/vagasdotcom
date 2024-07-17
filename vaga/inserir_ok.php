@@ -13,7 +13,15 @@
     $objVaga->setCategoriaId($_POST['categoria'] ?? 0);
     $objVaga->setDataPublicacao(date('Y-m-d H-i-s'));
     $objVaga->setAtivo($_POST['ativo'] ?? false);
-    $objVaga->setImagem($_POST['imagem'] ?? false);
+
+    $nomeImagem = $_FILES["imagem"]["name"];
+    $tmpName = $_FILES["imagem"]["tmp_name"];
+    $diretorio = "imagens/".$nomeImagem;
+    if(move_uploaded_file($tmpName, $diretorio))
+        echo "imagem ok";
+    else
+        echo "erro imagem";
+    $objVaga->setImagem($nomeImagem ?? "");
 
 	$objVagaDAO = new VagaDAO();
     $retorno = $objVagaDAO->inserir($objVaga);
